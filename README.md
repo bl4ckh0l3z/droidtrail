@@ -25,29 +25,29 @@ vetting of malicious/legit mobile apps; for each examined app it
 produces a digital footprint which is composed by these digital trails:
 
   *<< app_title, app_version, app_package_name, app_activities_names,
-     apps_services_names, apps_broadcast_receivers_names, 
+     apps_services_names, apps_broadcast_receivers_names,
      app_permissions, app_min_sdk, app_target_sdk, file_name, 
      file_md5_sum, file_sha256_sum, file_dimension, CA_owner, 
      CA_issuer, CA_serial_number, CA_finger_md5, CA_finger_sha1, 
      dummy_1, dummy_2, dummy_3 >>*
 
 The following elements are
-  - expressed by single-pipe separated values:
+  - expressed by single-pipe separated values:\s\s
       *app_activities_names, apps_services_names,
       apps_broadcast_receivers_names and app_permissions;*
-  - for future evolutions:
+  - for future evolutions:\s\s
       *dummy_1, dummy_2 and dummy_3.*
 
 
 ## Configuration and Installation
 
-$ sudo chmod 700 configure.sh
+$ sudo chmod 700 configure.sh\s\s
 $ configure.sh
 
 
 ## Running
 
-$ sudo chmod 700 run_droidtrail.sh
+$ sudo chmod 700 run_droidtrail.sh\s\s
 $ run_droidtrail.sh
 
 
@@ -74,7 +74,7 @@ The package is composed by:
 
 ## Todo-list
 
-Please see the <<TODO>> tag disseminated in the source code;
+Please see the <TODO> tag disseminated in the source code;\s\s
 some grep will help you! :)
 
 
@@ -90,4 +90,4 @@ Please see the file called LICENSE.
 
 ## Contacts
 
-bl4ckh0l3 <bl4ckh0l3z at gmail.com>
+bl4ckh0l3  bl4ckh0l3z at gmail.com

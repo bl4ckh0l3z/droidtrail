@@ -32,11 +32,9 @@ produces a digital footprint which is composed by these digital trails:
      dummy_1, dummy_2, dummy_3 >>``
 
 The following elements are
-  - expressed by single-pipe separated values:  
-      *app_activities_names, apps_services_names,
-      apps_broadcast_receivers_names and app_permissions;*
-  - for future evolutions:  
-      *dummy_1, dummy_2 and dummy_3.*
+  - expressed by single-pipe separated values: *app_activities_names, 
+    apps_services_names, apps_broadcast_receivers_names and app_permissions;*
+  - for future evolutions: *dummy_1, dummy_2 and dummy_3.*
 
 
 ## Configuration and Installation

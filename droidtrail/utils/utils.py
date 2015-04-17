@@ -35,9 +35,9 @@ class Utils():
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
 
-    def is_apk(self, path_in, file):
+    def is_apk(self, path, file):
         try:
-            f = open(os.path.join(path_in, file), 'r')
+            f = open(os.path.join(path, file), 'r')
             val = f.read()
             if 'PK' in val[0:100] and 'AndroidManifest.xml' in val \
                     and 'META-INF/MANIFEST.MF' in val:
@@ -47,9 +47,9 @@ class Utils():
             raise OSError
         return False
 
-    def is_axml(self, path_in, file):
+    def is_axml(self, path, file):
         try:
-            f = open(os.path.join(path_in, file), 'r')
+            f = open(os.path.join(path, file), 'r')
             val = f.read(7)
             if val[0:4] == "\x03\x00\x08\x00":
                 return True
@@ -58,9 +58,9 @@ class Utils():
             raise OSError
         return False
 
-    def is_zip(self, path_in, file):
+    def is_zip(self, path, file):
         try:
-            if zipfile.is_zipfile(os.path.join(path_in, file)) and \
+            if zipfile.is_zipfile(os.path.join(path, file)) and \
                     (os.path.splitext(file)[1] == '.zip' or \
                              os.path.splitext(file)[1] == '.7z'):
                 return True
@@ -69,61 +69,73 @@ class Utils():
             raise OSError
         return False
 
-    def extract_zip(self, path_in, file, path_out, password):
+    def extract_zip(self, path, file, path_out, password):
         # FIXME: for the future please use zipfile.extract(...), but at this time it gives 'Bad password' for some zip file
         try:
             if password is None:
                 password = ''
-            exit_status = os.system('7z x "%s" -y -p"%s" -o"%s" > /dev/null' % (os.path.join(path_in, file), password, path_out))
+            exit_status = os.system('7z x "%s" -y -p"%s" -o"%s" > /dev/null' % (os.path.join(path, file), password, path_out))
             if exit_status != 0:
                 raise OSError
         except OSError, e:
-            logging.error("Error extracting file '%s': %s" % (os.path.join(path_in, file), e))
+            logging.error("Error extracting file '%s': %s" % (os.path.join(path, file), e))
             raise OSError
 
-    def is_rar(self, path_in, file):
+    def is_rar(self, path, file):
         try:
-            if rarfile.is_rarfile(os.path.join(path_in, file)):
+            if rarfile.is_rarfile(os.path.join(path, file)):
                 return True
         except OSError, e:
             logging.error("Error in is_rar for '%s': %s" % (file, e))
             raise OSError
         return False
 
-    def extract_rar(self, path_in, file, path_out, password):
+    def extract_rar(self, path, file, path_out, password):
         try:
-            rar = rarfile.RarFile(os.path.join(path_in, file))
+            rar = rarfile.RarFile(os.path.join(path, file))
             rar.extractall(path_out, None, password)
             rar.close()
         except rarfile.Error, e:
-            logging.error("Error extracting file '%s': %s" % (os.path.join(path_in, file), e))
+            logging.error("Error extracting file '%s': %s" % (os.path.join(path, file), e))
             raise OSError
 
-    def is_tar(self, path_in, file):
+    def is_tar(self, path, file):
         try:
-            if tarfile.is_tarfile(os.path.join(path_in, file)):
+            if tarfile.is_tarfile(os.path.join(path, file)):
                 return True
         except OSError, e:
             logging.error("Error in is_tar for '%s': %s" % (file, e))
             raise OSError
         return False
 
-    def extract_tar(self, path_in, file, path_out):
+    def extract_tar(self, path, file, path_out):
         try:
-            tar = tarfile.open(os.path.join(path_in, file))
+            tar = tarfile.open(os.path.join(path, file))
             tar.extractall(path_out)
             tar.close
         except tarfile.TarError, e:
-            logging.error("Error extracting file '%s': %s" % (os.path.join(path_in, file), e))
+            logging.error("Error extracting file '%s': %s" % (os.path.join(path, file), e))
             raise OSError
 
-    def compute_md5(self, path_in, file):
+    def compute_md5(self, path, file):
         try:
-            md5 = hashlib.md5(open(os.path.join(path_in, file), 'rb').read()).hexdigest()
+            md5 = hashlib.md5(open(os.path.join(path, file), 'rb').read()).hexdigest()
         except OSError, e:
             logging.error("Error computing md5 of '%s': %s" % (file, e))
             raise OSError
         return md5
+
+    def compute_sha256(self, path, file):
+        try:
+            sha256 = hashlib.sha256(open(os.path.join(path, file), 'rb').read()).hexdigest()
+        except OSError, e:
+            logging.error("Error computing sha256 of '%s': %s" % (file, e))
+            raise OSError
+        return sha256
+
+    def get_size(self, path, file):
+        size = os.path.getsize(os.path.join(path, file))
+        return size
 
     def compute_dir_size(self, dir):
         try:

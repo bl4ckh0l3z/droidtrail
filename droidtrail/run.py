@@ -23,9 +23,10 @@ __email__ = 'bl4ckh0l3z@gmail.com'
 
 import logging
 from config.configreader import ConfigReader
+from dependencies.checkdependencies import CheckDependencies
 from extract.extractor import FileExtractor
 from fingerprint.fingerprintmaker import FingerprintMaker
-from dependencies.checkdependencies import CheckDependencies
+from trails.trailsdumper import TrailsDumper
 from utils.utils import Utils
 
 class Core:
@@ -41,12 +42,17 @@ class Core:
             config_reader = ConfigReader()
             self._cfg = config_reader.run()
             self._extractor = FileExtractor(self._cfg, utils)
+            self._trails_dumper = TrailsDumper(self._cfg, utils)
             self._fingerprint_maker = FingerprintMaker(self._cfg, utils)
 
     def run(self):
         print("Running...")
         self._extractor.run()
-        self._fingerprint_maker.run()
+        trails_list = self._trails_dumper.run()
+        if len(trails_list) > 0:
+            #TODO: fix this
+            pass
+            #self._fingerprint_maker.run(trails_list)
         print("Done...")
 
 

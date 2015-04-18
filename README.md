@@ -24,16 +24,17 @@ Droidtrail is a python tool for executing an automatic and lightweight
 vetting of malicious/legit mobile apps; for each examined app it
 produces a digital footprint which is composed by these digital trails:
 
-``<< app_title, app_version, app_package_name, app_activities_names,
-     apps_services_names, apps_broadcast_receivers_names,
-     app_permissions, app_min_sdk, app_target_sdk, file_name, 
-     file_md5_sum, file_sha256_sum, file_dimension, CA_owner, 
-     CA_issuer, CA_serial_number, CA_finger_md5, CA_finger_sha1, 
-     dummy_1, dummy_2, dummy_3 >>``
+``<< app_name, app_version, app_package_name, app_main_activity_name, 
+     app_activities_names, apps_services_names, apps_receivers_names, 
+     apps_libraries_names, app_permissions, app_min_sdk, app_max_sdk, 
+     app_target_sdk, file_name, file_md5_sum, file_sha256_sum, 
+     file_dimension, cert_subject, cert_issuer, cert_serial_number, 
+     cert_finger_md5, cert_finger_sha1, dummy_1, dummy_2, dummy_3 >>``
 
 The following elements are
   - expressed by single-pipe separated values: *app_activities_names, 
-    apps_services_names, apps_broadcast_receivers_names and app_permissions;*
+    apps_services_names, apps_receivers_names, apps_libraries_names,
+    and app_permissions;*
   - for future evolutions: *dummy_1, dummy_2 and dummy_3.*
 
 

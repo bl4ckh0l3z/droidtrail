@@ -28,10 +28,8 @@ import zipfile
 import rarfile
 import tarfile
 
-from zipfile import ZipFile
-
-
 class Utils():
+
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
 
@@ -164,3 +162,13 @@ class Utils():
             logging.error("Error computing file number in '%s': %s" % (dir, e))
             raise OSError
         return file_number
+
+    def complex_to_float(self, complex_value):
+        RADIX_MULTS = [0.00390625, 3.051758E-005, 1.192093E-007, 4.656613E-010]
+        float_value = float(complex_value & 0xFFFFFF00) * RADIX_MULTS[(complex_value >> 4) & 3]
+        return float_value
+
+    def long_to_int(self, long_value):
+        if long_value > 0x7fffffff:
+            long_value = (0x7fffffff & long_value) - 0x80000000
+        return long_value

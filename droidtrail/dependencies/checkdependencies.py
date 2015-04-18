@@ -62,9 +62,9 @@ class CheckDependencies():
         else:
             py_major, py_minor = sys.version_info[:2]
             py_version = sys.version.split()[0]
-            if py_major != int(self._config.get('DroidTrail', 'python_version_major')) or \
-                    py_minor < int(self._config.get('DroidTrail', 'python_version_minor')):
-                logging.error("You are using python %s, but version 2.7 or greater is required" % (py_version))
+            if py_major != int(self._config.get('DroidTrail', 'python_version_major')) and \
+                    py_minor != int(self._config.get('DroidTrail', 'python_version_minor')):
+                logging.error("You are using python %s, but version 2.7 is required" % (py_version))
                 exit_status = False
             else:
                 exit_status = True

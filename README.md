@@ -61,6 +61,7 @@ The package is composed by:
       - **fingerprint**: *the components for the fingerprinting of mobile apps;*  
       - **persistence**: *the components for managing the persistence of the results;*  
       - **utils**: *the collections of useful and reusable functions and methods;*  
+      - **trails**: *the components for the extraction of digital trails;*  
       - **run.py**: *the main python script.;*  
   - **droidtrail.env**: *the python virtual environment dedicated to this project;*  
   - **in**: *the input folder;*  

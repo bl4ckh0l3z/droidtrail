@@ -37,6 +37,7 @@ import StringIO
 import zipfile
 from xml.dom import minidom
 from axmlprinter import AXMLPrinter
+from arscparser import ARSCParser
 
 class APK:
 
@@ -48,6 +49,7 @@ class APK:
 
         self.xml = {}
         self.axml = {}
+        self.arsc = {}
 
         self.package = ""
         self.androidversion = {}
@@ -110,6 +112,29 @@ class APK:
             return self.zip.read(filename)
         except KeyError:
             return ""
+
+    def get_android_resources(self):
+        try:
+            return self.arsc["resources.arsc"]
+        except KeyError:
+            try:
+                self.arsc["resources.arsc"] = ARSCParser(self._utils, self.zip.read("resources.arsc"))
+                return self.arsc["resources.arsc"]
+            except KeyError:
+                return None
+
+    def get_app_name(self):
+        app = self.get_android_manifest_xml().getElementsByTagName("application")[0]
+        name = app.getAttribute("android:label")
+        if name.startswith("@"):
+            package_parser = self.get_android_resources()
+            name = ''
+            for package_name in package_parser.get_packages_names():
+                name = package_parser.get_string(package_name, 'app_name')
+                if name:
+                    name = name[1]
+                    break
+        return name
 
     def get_elements(self, tag_name, attribute):
         l = []

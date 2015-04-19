@@ -30,7 +30,7 @@ class FingerprintMaker():
         self._cfg = config
         self._utils = utils
 
-    def run(self):
+    def run(self, trails_list):
         logging.debug("Extracting fingerprints...")
         try:
             for root, dirs, files in os.walk(self._cfg['dir_out']):

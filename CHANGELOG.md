@@ -1,5 +1,11 @@
 # DroidTrail - Changelog
 
+## 0.2 (Apr 19, 2015)
+
+###Features
+
+  - Extract trails for each analyzed app  
+
 ## 0.1 (Apr 17, 2015)
 
 ###Features

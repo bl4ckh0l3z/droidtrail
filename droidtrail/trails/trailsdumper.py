@@ -27,6 +27,7 @@ from androguard.apk import APK
 
 
 class TrailsDumper():
+
     def __init__(self, config, utils):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
@@ -64,10 +65,7 @@ class TrailsDumper():
     def _dump_app_trails(self, apk_file):
         logging.debug("Dumping app_trails")
         app_trails = dict()
-        # TODO: t.b.d.
-        '''
-        app_trails['app_name'] =
-                        '''
+        app_trails['app_name'] = apk_file.get_app_name()
         app_trails['app_version'] = apk_file.get_androidversion_name()
         app_trails['app_package_name'] = apk_file.get_package()
         app_trails['app_main_activity_name'] = apk_file.get_main_activity()

@@ -31,18 +31,17 @@ class CheckDependencies():
 
     DEPENDENCIES_FILE = './droidtrail/dependencies/dependencies.cfg'
 
-    def __init__(self):
-        logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
-        self._config = configparser.ConfigParser()
-        self._config.read(self.__class__.DEPENDENCIES_FILE)
+    @staticmethod
+    def run():
+        config = configparser.ConfigParser()
+        config.read(CheckDependencies.DEPENDENCIES_FILE)
 
-    def run(self):
         check_passed = None
         logging.debug("Check dependencies...")
         print("Check dependencies...")
-        if not self._python_version_check() or \
-                not self._python_modules_check() or \
-                not self._external_tools_check():
+        if not CheckDependencies._python_version_check(config) or \
+                not CheckDependencies._python_modules_check(config) or \
+                not CheckDependencies._external_tools_check(config):
             check_passed = False
             logging.error("Check dependencies failed")
             print("Check dependencies failed")
@@ -53,17 +52,18 @@ class CheckDependencies():
         return check_passed
 
     # Python version check (anyway there is dedicated virtualenv)
-    def _python_version_check(self):
+    @staticmethod
+    def _python_version_check(config):
         exit_status = None
-        if not self._config.has_option('DroidTrail', 'python_version_major') \
-                or not self._config.has_option('DroidTrail', 'python_version_minor'):
+        if not config.has_option('DroidTrail', 'python_version_major') \
+                or not config.has_option('DroidTrail', 'python_version_minor'):
             logging.error("No config values for 'python_version_major' and/or 'python_version_minor'")
             exit_status = False
         else:
             py_major, py_minor = sys.version_info[:2]
             py_version = sys.version.split()[0]
-            if py_major != int(self._config.get('DroidTrail', 'python_version_major')) and \
-                    py_minor != int(self._config.get('DroidTrail', 'python_version_minor')):
+            if py_major != int(config.get('DroidTrail', 'python_version_major')) and \
+                    py_minor != int(config.get('DroidTrail', 'python_version_minor')):
                 logging.error("You are using python %s, but version 2.7 is required" % (py_version))
                 exit_status = False
             else:
@@ -71,13 +71,14 @@ class CheckDependencies():
         return exit_status
 
     # Python modules check (anyway there is dedicated virtualenv)
-    def _python_modules_check(self):
+    @staticmethod
+    def _python_modules_check(config):
         exit_status = 0
-        if not self._config.has_option('DroidTrail', 'python_modules'):
+        if not config.has_option('DroidTrail', 'python_modules'):
             logging.error("No config value for 'python_modules'")
             exit_status = 1
         else:
-            modules = self._config.get('DroidTrail', 'python_modules').split(',')
+            modules = config.get('DroidTrail', 'python_modules').split(',')
             for module in modules:
                 try:
                     __import__(module)
@@ -91,13 +92,14 @@ class CheckDependencies():
         return exit_status
 
     # External tools check
-    def _external_tools_check(self):
+    @staticmethod
+    def _external_tools_check(config):
         exit_status = 0
-        if not self._config.has_option('DroidTrail', 'ext_tools'):
+        if not config.has_option('DroidTrail', 'ext_tools'):
             logging.error("No config value for 'ext_tools'")
             exit_status = 1
         else:
-            ext_tools = self._config.get('DroidTrail', 'ext_tools').split(',')
+            ext_tools = config.get('DroidTrail', 'ext_tools').split(',')
             dev_null = open(os.devnull, 'w')
             for ext_tool in ext_tools:
                 try:

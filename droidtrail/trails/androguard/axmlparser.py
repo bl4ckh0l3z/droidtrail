@@ -79,9 +79,7 @@ class AXMLParser:
     TYPE_REFERENCE = 1
     TYPE_STRING = 3
 
-    def __init__(self, utils, raw_buff):
-        self._utils = utils
-
+    def __init__(self, raw_buff):
         self.reset()
 
         self.valid_axml = True

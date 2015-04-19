@@ -30,11 +30,14 @@ __license__ = 'GPL v2'
 __maintainer__ = 'bl4ckh0l3'
 __email__ = 'bl4ckh0l3z@gmail.com'
 
-import logging
 from xml.dom import minidom
 from xml.sax.saxutils import escape
 from struct import pack, unpack
 from axmlparser import AXMLParser
+
+import sys
+sys.path.append('../../')
+from utils.utils import Utils
 
 class AXMLPrinter:
 
@@ -67,10 +70,8 @@ class AXMLPrinter:
     FRACTION_UNITS = ["%", "%p"]
     COMPLEX_UNIT_MASK = 15
 
-    def __init__(self, utils, raw_buff):
-        self._utils = utils
-
-        self.axml = AXMLParser(self._utils, raw_buff)
+    def __init__(self, raw_buff):
+        self.axml = AXMLParser(raw_buff)
         self.xmlns = False
 
         self.buff = u''
@@ -147,16 +148,16 @@ class AXMLPrinter:
             return "true"
 
         elif _type == self.TYPE_DIMENSION:
-            return "%f%s" % (self._utils.complexToFloat(_data), self.DIMENSION_UNITS[_data & self.COMPLEX_UNIT_MASK])
+            return "%f%s" % (Utils.complexToFloat(_data), self.DIMENSION_UNITS[_data & self.COMPLEX_UNIT_MASK])
 
         elif _type == self.TYPE_FRACTION:
-            return "%f%s" % (self._utils.complexToFloat(_data) * 100, self.FRACTION_UNITS[_data & self.COMPLEX_UNIT_MASK])
+            return "%f%s" % (Utils.complexToFloat(_data) * 100, self.FRACTION_UNITS[_data & self.COMPLEX_UNIT_MASK])
 
         elif _type >= self.TYPE_FIRST_COLOR_INT and _type <= self.TYPE_LAST_COLOR_INT:
             return "#%08X" % _data
 
         elif _type >= self.TYPE_FIRST_INT and _type <= self.TYPE_LAST_INT:
-            return "%d" % self._utils.long_to_int(_data)
+            return "%d" % Utils.long_to_int(_data)
 
         return "<0x%X, type 0x%02X>" % (_data, _type)
 

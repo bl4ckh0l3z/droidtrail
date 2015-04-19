@@ -40,6 +40,10 @@ from arscrestype import ARSCResType
 from arscrestypespec import ARSCResTypeSpec
 from arscrestableentry import ARSCResTableEntry
 
+import sys
+sys.path.append('../../')
+from utils.utils import Utils
+
 class ARSCParser:
 
     RES_TABLE_PACKAGE_TYPE = 0x0200
@@ -49,9 +53,7 @@ class ARSCParser:
     DIMENSION_UNITS = ["px", "dip", "sp", "pt", "in", "mm"]
     COMPLEX_UNIT_MASK = 15
 
-    def __init__(self, utils, raw_buff):
-        self._utils = utils
-
+    def __init__(self, raw_buff):
         self.analyzed = False
         self.buff = BuffHandle(raw_buff)
         #print "SIZE", hex(self.buff.size())
@@ -210,7 +212,7 @@ class ARSCParser:
 
     def get_resource_dimen(self, ate):
         try:
-            return [ate.get_value(), "%s%s" % (self._utils.complex_to_float(ate.key.get_data()), self.DIMENSION_UNITS[ate.key.get_data() & self.COMPLEX_UNIT_MASK])]
+            return [ate.get_value(), "%s%s" % (Utils.complex_to_float(ate.key.get_data()), self.DIMENSION_UNITS[ate.key.get_data() & self.COMPLEX_UNIT_MASK])]
         except Exception, why:
             logging.warning(why.__str__())
             return [ate.get_value(), ate.key.get_data()]

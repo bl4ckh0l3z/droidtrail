@@ -41,11 +41,9 @@ from arscparser import ARSCParser
 
 class APK:
 
-    def __init__(self, utils, path, filename):
+    def __init__(self, path, filename):
         self.path = path
         self.filename = filename
-
-        self._utils = utils
 
         self.xml = {}
         self.axml = {}
@@ -65,7 +63,7 @@ class APK:
 
         for i in self.zip.namelist():
             if i == "AndroidManifest.xml":
-                self.axml[i] = AXMLPrinter(self._utils, self.zip.read(i))
+                self.axml[i] = AXMLPrinter(self.zip.read(i))
                 try:
                     self.xml[i] = minidom.parseString(self.axml[i].get_buff())
                 except:
@@ -118,7 +116,7 @@ class APK:
             return self.arsc["resources.arsc"]
         except KeyError:
             try:
-                self.arsc["resources.arsc"] = ARSCParser(self._utils, self.zip.read("resources.arsc"))
+                self.arsc["resources.arsc"] = ARSCParser(self.zip.read("resources.arsc"))
                 return self.arsc["resources.arsc"]
             except KeyError:
                 return None

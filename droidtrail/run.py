@@ -29,8 +29,8 @@ from fingerprint.fingerprintmaker import FingerprintMaker
 from trails.trailsdumper import TrailsDumper
 from utils.utils import Utils
 
-class Core:
 
+class Core:
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         utils = Utils()
@@ -50,18 +50,24 @@ class Core:
         self._extractor.run()
         trails_list = self._trails_dumper.run()
         if len(trails_list) > 0:
-            #TODO: fix this
-            pass
-            #self._fingerprint_maker.run(trails_list)
+            #TODO: save trails_list to files
+            fingerprints_list = self._fingerprint_maker.run(trails_list)
+            if len(fingerprints_list) > 0:
+                pass
+                #TODO: save fingerprint_list to files
+            else:
+                logging.debug('Empty fingerprint_list')
+        else:
+            logging.debug('Empty trails_list')
         print("Done...")
 
 
 if __name__ == "__main__":
-    log_file='./logs/droidtrail.log'
+    log_file = './logs/droidtrail.log'
     logging.basicConfig(filename=log_file,
-            level=logging.DEBUG,
-            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-            datefmt='%d-%m-%Y %H:%M')
+                        level=logging.DEBUG,
+                        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                        datefmt='%d-%m-%Y %H:%M')
     logging.debug("Setting '%s' as log file" % (log_file))
 
     logging.debug('#####################################')

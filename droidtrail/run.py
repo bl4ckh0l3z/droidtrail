@@ -27,13 +27,11 @@ from dependencies.checkdependencies import CheckDependencies
 from extract.extractor import FileExtractor
 from fingerprint.fingerprintmaker import FingerprintMaker
 from trails.trailsdumper import TrailsDumper
-from utils.utils import Utils
 
 
 class Core:
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
-        utils = Utils()
         check_dependecies = CheckDependencies()
         check_passed = check_dependecies.run()
         if not check_passed:
@@ -41,9 +39,9 @@ class Core:
         else:
             config_reader = ConfigReader()
             self._cfg = config_reader.run()
-            self._extractor = FileExtractor(self._cfg, utils)
-            self._trails_dumper = TrailsDumper(self._cfg, utils)
-            self._fingerprint_maker = FingerprintMaker(self._cfg, utils)
+            self._extractor = FileExtractor(self._cfg)
+            self._trails_dumper = TrailsDumper(self._cfg)
+            self._fingerprint_maker = FingerprintMaker(self._cfg)
 
     def run(self):
         print("Running...")

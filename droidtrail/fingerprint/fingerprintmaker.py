@@ -22,26 +22,28 @@ __email__ = 'bl4ckh0l3z@gmail.com'
 
 import os
 import logging
+from utils.utils import Utils
 
 class FingerprintMaker():
 
-    def __init__(self, config, utils):
+    def __init__(self, config):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
-        self._utils = utils
 
     def run(self, trails_list):
+        fingerprints_list = []
         logging.debug("Extracting fingerprints...")
         try:
             for root, dirs, files in os.walk(self._cfg['dir_out']):
                 for file in files:
-                    if self._utils.is_apk(root, file):
+                    if Utils.is_apk(root, file):
                         self._extract_fingerprint(root, file)
                     else:
                         logging.error("Unsupported file type '%s' for '%s'" % (os.path.splitext(file)[1], os.path.join(root, file)))
         except OSError, e:
             logging.error("Error extracting fingerprints: %s" % (e))
             raise OSError
+        return fingerprints_list
 
     def _extract_fingerprint(self, path_in, file):
         logging.debug("Extract fingerprint from '%s'" % (os.path.join(path_in, file)))

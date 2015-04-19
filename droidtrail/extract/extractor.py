@@ -24,17 +24,16 @@ __email__ = 'bl4ckh0l3z@gmail.com'
 import os
 import shutil
 import logging
-
+from utils.utils import Utils
 
 class FileExtractor():
-    def __init__(self, config, utils):
+    def __init__(self, config):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
-        self._utils = utils
 
     def run(self):
         logging.debug("Extracting files...")
-        while self._utils.compute_file_number(self._cfg['dir_in']) > 0:
+        while Utils.compute_file_number(self._cfg['dir_in']) > 0:
             self._walk_dir(self._cfg['dir_in'], self._cfg['dir_out'])
         self._remove_dir_content(self._cfg['dir_in'])
 
@@ -44,13 +43,13 @@ class FileExtractor():
                 for file in files:
                     file.replace('$', '\$')
 
-                    if self._utils.is_zip(root, file) or \
-                            self._utils.is_rar(root, file) or \
-                            self._utils.is_tar(root, file):
+                    if Utils.is_zip(root, file) or \
+                            Utils.is_rar(root, file) or \
+                            Utils.is_tar(root, file):
                         self._extract_file(root, file)
                         self._remove_file(root, file)
                     else:
-                        if self._utils.is_apk(root, file):
+                        if Utils.is_apk(root, file):
                             self._rename_file(root, path_out, file)
                         else:
                             self._remove_file(root, file)
@@ -75,19 +74,19 @@ class FileExtractor():
 
     def _extract(self, path_in, file, password):
         try:
-            if self._utils.is_zip(path_in, file):
-                self._utils.extract_zip(path_in, file, path_in, password)
-            elif self._utils.is_rar(path_in, file):
-                self._utils.extract_rar(path_in, file, path_in, password)
-            elif self._utils.is_tar(path_in, file):
-                self._utils.extract_tar(path_in, file, path_in)
+            if Utils.is_zip(path_in, file):
+                Utils.extract_zip(path_in, file, path_in, password)
+            elif Utils.is_rar(path_in, file):
+                Utils.extract_rar(path_in, file, path_in, password)
+            elif Utils.is_tar(path_in, file):
+                Utils.extract_tar(path_in, file, path_in)
         except OSError, e:
             return False
         return True
 
     def _rename_file(self, path_in, path_out, file):
         logging.debug("Renaming file '%s'" % (os.path.join(path_in, file)))
-        md5 = self._utils.compute_md5(path_in, file)
+        md5 = Utils.compute_md5(path_in, file)
         ext = os.path.splitext(file)[1]
         if ext != '.apk':
             ext = '.apk'

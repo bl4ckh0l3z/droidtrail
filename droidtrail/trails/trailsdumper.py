@@ -25,13 +25,15 @@ import os
 import logging
 from androguard.apk import APK
 
+import sys
+sys.path.append('../../')
+from utils.utils import Utils
 
 class TrailsDumper():
 
-    def __init__(self, config, utils):
+    def __init__(self, config):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
-        self._utils = utils
 
     def run(self):
         logging.debug("Dumping trails...")
@@ -39,8 +41,8 @@ class TrailsDumper():
         try:
             for root, dirs, files in os.walk(self._cfg['dir_out']):
                 for file in files:
-                    if self._utils.is_apk(root, file):
-                        apk_file = APK(self._utils, root, file)
+                    if Utils.is_apk(root, file):
+                        apk_file = APK(root, file)
                         trails = self._dump_trails(apk_file)
                         if len(trails) > 0:
                             trails_list.append(trails)
@@ -85,9 +87,9 @@ class TrailsDumper():
         file = apk_file.get_filename()
         file_trails = dict()
         file_trails['file_name'] = file
-        file_trails['file_md5_sum'] = self._utils.compute_md5(path, file)
-        file_trails['file_sha256_sum'] = self._utils.compute_sha256(path, file)
-        file_trails['file_dimension'] = self._utils.get_size(path, file)
+        file_trails['file_md5_sum'] = Utils.compute_md5(path, file)
+        file_trails['file_sha256_sum'] = Utils.compute_sha256(path, file)
+        file_trails['file_dimension'] = Utils.get_size(path, file)
         return file_trails
 
     def _dump_cert_trails(self, apk_file):

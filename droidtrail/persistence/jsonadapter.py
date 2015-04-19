@@ -22,35 +22,16 @@ __maintainer__ = 'bl4ckh0l3'
 __email__ = 'bl4ckh0l3z@gmail.com'
 
 import logging
-#import MySQLdb
-#from MySQLdb import OperationalError
 
-class DbAdapter():
-    """
-    import MySQLdb; db = MySQLdb.connect(host="10.6.20.20", user="root", passwd="*****", db="ipfeeder")
-    """
+class JSONAdapter():
 
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
-        self.db_host = ''
-        self.db_user = ''
-        self.db_password = ''
-        self.db_name = ''
+
+    def save_trails(self, trails_list):
+        logging.debug("JSONAdapter is storing trails...")
         #TODO: t.b.d.
 
-    def connect(self):
-        logging.debug('Connecting to...')
-        '''
-        try:
-            return MySQLdb.connect(
-                host=self.db_host,
-                user=self.db_user,
-                passwd=self.db_password,
-                db=self.db_name)
-        except OperationalError as ex:
-            logging.debug('Connection Error')
-            return None
-        '''
-
-    def cursor(self):
-        return self.connect().cursor()
+    def save_fingerprints(self, fingerprints_list):
+        logging.debug("JSONAdapter is storing fingerprints...")
+        #TODO: t.b.d.

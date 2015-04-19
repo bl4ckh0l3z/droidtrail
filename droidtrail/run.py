@@ -27,18 +27,17 @@ from dependencies.checkdependencies import CheckDependencies
 from extract.extractor import FileExtractor
 from fingerprint.fingerprintmaker import FingerprintMaker
 from trails.trailsdumper import TrailsDumper
-
+from persistence.jsonadapter import JSONAdapter
 
 class Core:
+
     def __init__(self):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
-        check_dependecies = CheckDependencies()
-        check_passed = check_dependecies.run()
+        check_passed = CheckDependencies.run()
         if not check_passed:
             exit()
         else:
-            config_reader = ConfigReader()
-            self._cfg = config_reader.run()
+            self._cfg = ConfigReader.run()
             self._extractor = FileExtractor(self._cfg)
             self._trails_dumper = TrailsDumper(self._cfg)
             self._fingerprint_maker = FingerprintMaker(self._cfg)
@@ -48,6 +47,8 @@ class Core:
         self._extractor.run()
         trails_list = self._trails_dumper.run()
         if len(trails_list) > 0:
+            JSONAdapter.config = self._cfg
+            JSONAdapter.save_trails(trails_list)
             #TODO: save trails_list to files
             fingerprints_list = self._fingerprint_maker.run(trails_list)
             if len(fingerprints_list) > 0:

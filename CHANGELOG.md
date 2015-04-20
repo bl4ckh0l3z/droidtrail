@@ -5,8 +5,10 @@
 ###Features
 
   - Extract a fingerprint for each analyzed app
-  - Store the trails extracted for earch analyzed app in a JSON file named trails_list.json  
-  - Store the fingerprint extracted for earch analyzed app in a JSON file named fingerprints_list.json
+  - Store the trails extracted for earch analyzed app in a JSON file 
+    trails_list.json, stored in the out directory  
+  - Store the fingerprint extracted for earch analyzed app in a JSON file 
+    fingerprints_list.json, stored in the out directory
 
 ## 0.2 (Apr 19, 2015)
 

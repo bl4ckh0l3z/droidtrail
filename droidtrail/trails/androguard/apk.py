@@ -34,6 +34,7 @@ import os
 import re
 import chilkat
 import StringIO
+import logging
 import zipfile
 from xml.dom import minidom
 from axmlprinter import AXMLPrinter
@@ -59,27 +60,28 @@ class APK:
         self.__raw = fd.read()
         fd.close()
 
-        self.zip = zipfile.ZipFile(StringIO.StringIO(self.__raw), mode='r')
+        try:
+            self.zip = zipfile.ZipFile(StringIO.StringIO(self.__raw), mode='r')
 
-        for i in self.zip.namelist():
-            if i == "AndroidManifest.xml":
-                self.axml[i] = AXMLPrinter(self.zip.read(i))
-                try:
-                    self.xml[i] = minidom.parseString(self.axml[i].get_buff())
-                except:
-                    self.xml[i] = None
+            for i in self.zip.namelist():
+                if i == "AndroidManifest.xml":
+                    self.axml[i] = AXMLPrinter(self.zip.read(i))
+                    try:
+                        self.xml[i] = minidom.parseString(self.axml[i].get_buff())
+                    except:
+                        self.xml[i] = None
 
-                if self.xml[i] != None:
-                    self.package = self.xml[i].documentElement.getAttribute("package")
-                    self.androidversion["Code"] = self.xml[i].documentElement.getAttribute("android:versionCode")
-                    self.androidversion["Name"] = self.xml[i].documentElement.getAttribute("android:versionName")
-                    #FIXME
-                    #self.androidapplicationlabel = self.xml[i].documentElement.getAttribute("application-label:")
+                    if self.xml[i] != None:
+                        self.package = self.xml[i].documentElement.getAttribute("package")
+                        self.androidversion["Code"] = self.xml[i].documentElement.getAttribute("android:versionCode")
+                        self.androidversion["Name"] = self.xml[i].documentElement.getAttribute("android:versionName")
 
-                    for item in self.xml[i].getElementsByTagName('uses-permission'):
-                        self.permissions.append(str(item.getAttribute("android:name")))
+                        for item in self.xml[i].getElementsByTagName('uses-permission'):
+                            self.permissions.append(str(item.getAttribute("android:name")))
 
-                    self.valid_apk = True
+                        self.valid_apk = True
+        except:
+            logging.error("Ignoring '%s', exception creating APK instance" % (filename))
 
     def get_android_manifest(self):
         return self.xml["AndroidManifest.xml"]
@@ -333,22 +335,15 @@ class APK:
             sha1_thumbprint = None
         return sha1_thumbprint
 
-    def get_fingerprint_md5(self):
-        #FIXME
-        md5_thumbprint = ''
-        signature_name = self.get_signature_name()
-        success, cert = self.get_certificate(signature_name)
-        if success == True:
-            md5_thumbprint = ''
-        else:
-            md5_thumbprint = None
-        return md5_thumbprint
-
     def get_certificate_data(self):
         signature_name = self.get_signature_name()
         success, cert = self.get_certificate(signature_name)
-        issuer = self.get_certificate_issuer(cert)
-        subject = self.get_certificate_subject(cert)
+        if success == True:
+            issuer = self.get_certificate_issuer(cert)
+            subject = self.get_certificate_subject(cert)
+        else:
+            issuer = "Issuer: C=None, CN=None, DN=None, E=None, L=None, O=None, OU=None, S=None"
+            subject = "Subject: C=None, CN=None, DN=None, E=None, L=None, O=None, OU=None, S=None"
         return issuer, subject
 
     def get_certificate_issuer(self, cert):

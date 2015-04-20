@@ -24,8 +24,8 @@ import os
 import logging
 from utils.utils import Utils
 
-class FingerprintMaker():
 
+class FingerprintMaker():
     def __init__(self, config):
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
@@ -34,22 +34,23 @@ class FingerprintMaker():
         logging.debug("Extracting fingerprints...")
         fingerprints_list = []
         for trails in trails_list:
-                fingerprint = self._extract_fingerprint(trails)
-                if len(fingerprint) > 0:
-                    fingerprints_list.append()
-                else:
-                    logging.error("Empty dict")
+            fingerprint = self._extract_fingerprint(trails)
+            if len(fingerprint) > 0:
+                fingerprints_list.append(fingerprint)
+            else:
+                logging.error("Empty dict")
         return fingerprints_list
 
-    def _extract_fingerprint(self, trails):
+    def _extract_fingerprint(self, trails, mode='long'):
         app_trails = trails['app_trails']
         logging.debug("Extracting fingerprint for '%s'" % (app_trails['app_name']))
         fingerprint = dict()
-        fingerprint['app_name'] = app_trails['app_name']
-        fingerprint['app_version'] = app_trails['app_version']
-        fingerprint['app_package_name'] = app_trails['app_package_name']
-        fingerprint['app_activities_names'] = app_trails['app_activities_names']
-        fingerprint['app_services_names'] = app_trails['app_services_names']
-        fingerprint['app_receivers_names'] = app_trails['app_receivers_names']
-        fingerprint['app_permissions'] = app_trails['app_permissions']
+        fingerprint['index'] = Utils.compute_md5_value(app_trails['app_package_name'])
+        elem = app_trails['app_name'] + ',' + app_trails['app_version'] + ',' + \
+               app_trails['app_package_name'] + ',' + app_trails['app_permissions']
+        if mode == 'long':
+            elem += app_trails['app_activities_names'] + ',' + \
+                    app_trails['app_services_names'] + ',' + \
+                    app_trails['app_receivers_names']
+        fingerprint['elem'] = Utils.compute_sha256_value(elem)
         return fingerprint

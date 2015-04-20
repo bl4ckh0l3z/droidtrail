@@ -52,5 +52,5 @@ class FingerprintMaker():
             elem += app_trails['app_activities_names'] + ',' + \
                     app_trails['app_services_names'] + ',' + \
                     app_trails['app_receivers_names']
-        fingerprint['elem'] = Utils.compute_sha256_value(elem)
+        fingerprint['elem'] = Utils.compute_sha256_value(elem.encode('utf-8'))
         return fingerprint

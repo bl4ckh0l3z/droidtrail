@@ -31,20 +31,25 @@ class FingerprintMaker():
         self._cfg = config
 
     def run(self, trails_list):
-        fingerprints_list = []
         logging.debug("Extracting fingerprints...")
-        try:
-            for root, dirs, files in os.walk(self._cfg['dir_out']):
-                for file in files:
-                    if Utils.is_apk(root, file):
-                        self._extract_fingerprint(root, file)
-                    else:
-                        logging.error("Unsupported file type '%s' for '%s'" % (os.path.splitext(file)[1], os.path.join(root, file)))
-        except OSError, e:
-            logging.error("Error extracting fingerprints: %s" % (e))
-            raise OSError
+        fingerprints_list = []
+        for trails in trails_list:
+                fingerprint = self._extract_fingerprint(trails)
+                if len(fingerprint) > 0:
+                    fingerprints_list.append()
+                else:
+                    logging.error("Empty dict")
         return fingerprints_list
 
-    def _extract_fingerprint(self, path_in, file):
-        logging.debug("Extract fingerprint from '%s'" % (os.path.join(path_in, file)))
-        #TODO: t.b.d.
+    def _extract_fingerprint(self, trails):
+        app_trails = trails['app_trails']
+        logging.debug("Extracting fingerprint for '%s'" % (app_trails['app_name']))
+        fingerprint = dict()
+        fingerprint['app_name'] = app_trails['app_name']
+        fingerprint['app_version'] = app_trails['app_version']
+        fingerprint['app_package_name'] = app_trails['app_package_name']
+        fingerprint['app_activities_names'] = app_trails['app_activities_names']
+        fingerprint['app_services_names'] = app_trails['app_services_names']
+        fingerprint['app_receivers_names'] = app_trails['app_receivers_names']
+        fingerprint['app_permissions'] = app_trails['app_permissions']
+        return fingerprint

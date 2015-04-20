@@ -74,6 +74,8 @@ The package is composed by:
 
 ## Todo-list
 
+  - Update README with new models (trails and fingerprints)
+  - Fix return value of APK functions
   - Develop csvadapter and xmladapter
   - Improve strings encode/decode  
   - Develop stats components  

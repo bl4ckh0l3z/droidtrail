@@ -121,7 +121,7 @@ class Utils():
             raise OSError
 
     @staticmethod
-    def compute_md5(path, file):
+    def compute_md5_file(path, file):
         try:
             md5 = hashlib.md5(open(os.path.join(path, file), 'rb').read()).hexdigest()
         except OSError, e:
@@ -130,12 +130,30 @@ class Utils():
         return md5
 
     @staticmethod
-    def compute_sha256(path, file):
+    def compute_md5_value(value):
+        try:
+            md5 = hashlib.md5(value).hexdigest()
+        except:
+            logging.error("Error computing md5 of '%s'" % (value))
+            raise Exception
+        return md5
+
+    @staticmethod
+    def compute_sha256_file(path, file):
         try:
             sha256 = hashlib.sha256(open(os.path.join(path, file), 'rb').read()).hexdigest()
         except OSError, e:
             logging.error("Error computing sha256 of '%s': %s" % (file, e))
             raise OSError
+        return sha256
+
+    @staticmethod
+    def compute_sha256_value(value):
+        try:
+            sha256 = hashlib.sha256(value).hexdigest()
+        except:
+            logging.error("Error computing sha256 of '%s'" % (value))
+            raise Exception
         return sha256
 
     @staticmethod

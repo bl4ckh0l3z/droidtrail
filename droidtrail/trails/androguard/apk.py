@@ -79,8 +79,11 @@ class APK:
                         for item in self.xml[i].getElementsByTagName('uses-permission'):
                             self.permissions.append(str(item.getAttribute("android:name")))
 
+                        self.app_name = self._get_app_name()
+
                         self.valid_apk = True
         except:
+            self.valid_apk = False
             logging.error("Ignoring '%s', exception creating APK instance" % (filename))
 
     def get_android_manifest(self):
@@ -124,16 +127,23 @@ class APK:
                 return None
 
     def get_app_name(self):
+        return self.app_name
+
+    def _get_app_name(self):
         app = self.get_android_manifest_xml().getElementsByTagName("application")[0]
         name = app.getAttribute("android:label")
         if name.startswith("@"):
-            package_parser = self.get_android_resources()
-            name = ''
-            for package_name in package_parser.get_packages_names():
-                name = package_parser.get_string(package_name, 'app_name')
-                if name:
-                    name = name[1]
-                    break
+            try:
+                package_parser = self.get_android_resources()
+                name = ''
+                for package_name in package_parser.get_packages_names():
+                    name = package_parser.get_string(package_name, 'app_name')
+                    if name:
+                        name = name[1]
+                        break
+            except:
+                self.valid_apk = False
+                logging.error("Ignoring '%s', exception creating APK instance" % (self.filename))
         return name
 
     def get_elements(self, tag_name, attribute):

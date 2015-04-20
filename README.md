@@ -78,11 +78,6 @@ Please see the <TODO> tag disseminated in the source code;
 some grep will help you! :)
 
 
-## Wish-list
-
-t.b.d.
-
-
 ## Licensing
 
 Please see the file called LICENSE.

@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with DroidTrail. If not, see <http://www.gnu.org/licenses/>.
 #
+from argparse import _SubParsersAction
 
 __author__ = 'bl4ckh0l3'
 __license__ = 'GPL v2'
@@ -43,11 +44,12 @@ class TrailsDumper():
                 for file in files:
                     if Utils.is_apk(root, file):
                         apk_file = APK(root, file)
-                        trails = self._dump_trails(apk_file)
-                        if len(trails) > 0:
-                            trails_list.append(trails)
-                        else:
-                            logging.error("Empty dict for '%s'" % (os.path.join(root, file)))
+                        if apk_file.is_valid_APK():
+                            trails = self._dump_trails(apk_file)
+                            if len(trails) > 0:
+                                trails_list.append(trails)
+                            else:
+                                logging.error("Empty dict for '%s'" % (os.path.join(root, file)))
                     else:
                         logging.error("Unsupported file type '%s' for '%s'" % (
                             os.path.splitext(file)[1], os.path.join(root, file)))
@@ -87,8 +89,8 @@ class TrailsDumper():
         file = apk_file.get_filename()
         file_trails = dict()
         file_trails['file_name'] = file
-        file_trails['file_md5_sum'] = Utils.compute_md5(path, file)
-        file_trails['file_sha256_sum'] = Utils.compute_sha256(path, file)
+        file_trails['file_md5_sum'] = Utils.compute_md5_file(path, file)
+        file_trails['file_sha256_sum'] = Utils.compute_sha256_file(path, file)
         file_trails['file_dimension'] = Utils.get_size(path, file)
         return file_trails
 

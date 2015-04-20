@@ -49,11 +49,9 @@ class Core:
         if len(trails_list) > 0:
             JSONAdapter.config = self._cfg
             JSONAdapter.save_trails(trails_list)
-            #TODO: save trails_list to files
             fingerprints_list = self._fingerprint_maker.run(trails_list)
             if len(fingerprints_list) > 0:
-                pass
-                #TODO: save fingerprint_list to files
+                JSONAdapter.save_fingerprints(fingerprints_list)
             else:
                 logging.debug('Empty fingerprint_list')
         else:

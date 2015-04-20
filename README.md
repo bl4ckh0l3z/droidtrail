@@ -20,7 +20,7 @@
 
 ## What is it?
 
-Droidtrail is a python tool for executing an automatic and lightweight
+Droidtrail is a modular python tool for executing an automatic and lightweight
 vetting of malicious/legit mobile apps; for each examined app it
 produces a digital footprint which is composed by these digital trails:
 
@@ -29,7 +29,7 @@ produces a digital footprint which is composed by these digital trails:
      apps_libraries_names, app_permissions, app_min_sdk, app_max_sdk, 
      app_target_sdk, file_name, file_md5_sum, file_sha256_sum, 
      file_dimension, cert_subject, cert_issuer, cert_serial_number, 
-     cert_finger_md5, cert_finger_sha1, dummy_1, dummy_2, dummy_3 >>``
+     cert_finger_sha1, dummy_1, dummy_2, dummy_3 >>``
 
 The following elements are
   - expressed by single-pipe separated values: *app_activities_names, 

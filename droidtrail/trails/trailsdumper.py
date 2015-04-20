@@ -99,6 +99,5 @@ class TrailsDumper():
         cert_trails['cert_subject'] = subject
         cert_trails['cert_issuer'] = issuer
         cert_trails['cert_serial_number'] = apk_file.get_serial_number()
-        cert_trails['cert_finger_md5'] = apk_file.get_fingerprint_md5()
         cert_trails['cert_finger_sha1'] = apk_file.get_fingerprint_sha1()
         return cert_trails

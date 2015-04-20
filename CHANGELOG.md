@@ -1,5 +1,13 @@
 # DroidTrail - Changelog
 
+## 0.3 (Apr 20, 2015)
+
+###Features
+
+  - Extract a fingerprint for each analyzed app
+  - Store the trails extracted for earch analyzed app in a JSON file named trails_list.json  
+  - Store the fingerprint extracted for earch analyzed app in a JSON file named fingerprints_list.json
+
 ## 0.2 (Apr 19, 2015)
 
 ###Features

@@ -86,7 +86,7 @@ class FileExtractor():
 
     def _rename_file(self, path_in, path_out, file):
         logging.debug("Renaming file '%s'" % (os.path.join(path_in, file)))
-        md5 = Utils.compute_md5(path_in, file)
+        md5 = Utils.compute_md5_file(path_in, file)
         ext = os.path.splitext(file)[1]
         if ext != '.apk':
             ext = '.apk'

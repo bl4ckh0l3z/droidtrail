@@ -144,6 +144,8 @@ class APK:
             except:
                 self.valid_apk = False
                 logging.error("Ignoring '%s', exception creating APK instance" % (self.filename))
+        if name == None:
+            name = 'None'
         return name
 
     def get_elements(self, tag_name, attribute):
@@ -303,12 +305,18 @@ class APK:
 
     def get_certificate(self, filename):
         cert = chilkat.CkCert()
-        f = self.get_file(filename)
-        data = chilkat.CkByteData()
-        data.append2(f, len(f))
-        success = cert.LoadFromBinary(data)
-        if success == False:
+        try:
+            f = self.get_file(filename)
+            data = chilkat.CkByteData()
+            data.append2(f, len(f))
+            success = cert.LoadFromBinary(data)
+            if success == False:
+                cert = None
+        except:
+            self.valid_apk = False
+            success = False
             cert = None
+            logging.error("Ignoring '%s', exception extracting certificate" % (filename))
         return success, cert
 
     def get_signature_name(self):
@@ -358,12 +366,14 @@ class APK:
 
     def get_certificate_issuer(self, cert):
         issuer = "Issuer: C=%s, CN=%s, DN=%s, E=%s, L=%s, O=%s, OU=%s, S=%s" % (
-            cert.issuerC(), cert.issuerCN(), cert.issuerDN(), cert.issuerE(), cert.issuerL(), cert.issuerO(),
-            cert.issuerOU(), cert.issuerS())
+            cert.issuerC().decode('latin-1'), cert.issuerCN().decode('latin-1'), cert.issuerDN().decode('latin-1'),
+            cert.issuerE().decode('latin-1'), cert.issuerL().decode('latin-1'), cert.issuerO().decode('latin-1'),
+            cert.issuerOU().decode('latin-1'), cert.issuerS().decode('latin-1'))
         return issuer
 
     def get_certificate_subject(self, cert):
         subject = "Subject: C=%s, CN=%s, DN=%s, E=%s, L=%s, O=%s, OU=%s, S=%s" % (
-            cert.subjectC(), cert.subjectCN(), cert.subjectDN(), cert.subjectE(), cert.subjectL(), cert.subjectO(),
-            cert.subjectOU(), cert.subjectS())
+            cert.subjectC().decode('latin-1'), cert.subjectCN().decode('latin-1'), cert.subjectDN().decode('latin-1'),
+            cert.subjectE().decode('latin-1'), cert.subjectL().decode('latin-1'), cert.subjectO().decode('latin-1'),
+            cert.subjectOU().decode('latin-1'), cert.subjectS().decode('latin-1'))
         return subject

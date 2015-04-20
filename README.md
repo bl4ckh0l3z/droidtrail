@@ -74,6 +74,9 @@ The package is composed by:
 
 ## Todo-list
 
+  - Develop csvadapter and xmladapter
+  - Improve strings encode/decode  
+  - Develop stats components  
 Please see the <TODO> tag disseminated in the source code;  
 some grep will help you! :)
 

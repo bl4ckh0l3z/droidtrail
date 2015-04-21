@@ -35,7 +35,7 @@ class FingerprintMaker():
         fingerprints_list = []
         for trails in trails_list:
             fingerprint = self._extract_fingerprint(trails)
-            if len(fingerprint) > 0:
+            if len(fingerprint) > 0 and fingerprint not in fingerprints_list:
                 fingerprints_list.append(fingerprint)
             else:
                 logging.error("Empty dict")

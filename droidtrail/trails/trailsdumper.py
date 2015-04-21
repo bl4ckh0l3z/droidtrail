@@ -36,7 +36,7 @@ class TrailsDumper():
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
 
-    def run(self):
+    def run(self, mode='long'):
         logging.debug("Dumping trails...")
         trails_list = []
         try:
@@ -45,7 +45,7 @@ class TrailsDumper():
                     if Utils.is_apk(root, file):
                         apk_file = APK(root, file)
                         if apk_file.is_valid_APK():
-                            trails = self._dump_trails(apk_file)
+                            trails = self._dump_trails(apk_file, mode)
                             if len(trails) > 0 and trails not in trails_list:
                                 trails_list.append(trails)
                             else:
@@ -58,29 +58,31 @@ class TrailsDumper():
             raise OSError
         return trails_list
 
-    def _dump_trails(self, apk_file):
+    def _dump_trails(self, apk_file, mode):
         logging.debug("Dumping trails from '%s'" % (apk_file.get_filename()))
         trails = dict()
-        trails['app_trails'] = self._dump_app_trails(apk_file)
-        trails['file_trails'] = self._dump_file_trails(apk_file)
-        trails['cert_trails'] = self._dump_cert_trails(apk_file)
+        trails['app_trails'] = self._dump_app_trails(apk_file, mode)
+        if mode == 'long':
+            trails['file_trails'] = self._dump_file_trails(apk_file)
+            trails['cert_trails'] = self._dump_cert_trails(apk_file)
         return trails
 
-    def _dump_app_trails(self, apk_file):
+    def _dump_app_trails(self, apk_file, mode):
         logging.debug("Dumping app_trails")
         app_trails = dict()
         app_trails['app_name'] = apk_file.get_app_name()
         app_trails['app_version'] = apk_file.get_androidversion_name()
         app_trails['app_package_name'] = apk_file.get_package()
-        app_trails['app_main_activity_name'] = apk_file.get_main_activity()
         app_trails['app_activities_names'] = apk_file.get_activities()
         app_trails['app_services_names'] = apk_file.get_services()
         app_trails['app_receivers_names'] = apk_file.get_receivers()
-        app_trails['app_libraries_names'] = apk_file.get_libraries()
         app_trails['app_permissions'] = apk_file.get_permissions()
-        app_trails['app_min_sdk'] = apk_file.get_min_sdk_version()
-        app_trails['app_max_sdk'] = apk_file.get_max_sdk_version()
-        app_trails['app_target_sdk'] = apk_file.get_target_sdk_version()
+        if mode == 'long':
+            app_trails['app_main_activity_name'] = apk_file.get_main_activity()
+            app_trails['app_libraries_names'] = apk_file.get_libraries()
+            app_trails['app_min_sdk'] = apk_file.get_min_sdk_version()
+            app_trails['app_max_sdk'] = apk_file.get_max_sdk_version()
+            app_trails['app_target_sdk'] = apk_file.get_target_sdk_version()
         return app_trails
 
     def _dump_file_trails(self, apk_file):

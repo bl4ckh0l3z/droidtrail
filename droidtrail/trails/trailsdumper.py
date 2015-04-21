@@ -46,7 +46,7 @@ class TrailsDumper():
                         apk_file = APK(root, file)
                         if apk_file.is_valid_APK():
                             trails = self._dump_trails(apk_file)
-                            if len(trails) > 0:
+                            if len(trails) > 0 and trails not in trails_list:
                                 trails_list.append(trails)
                             else:
                                 logging.error("Empty dict for '%s'" % (os.path.join(root, file)))

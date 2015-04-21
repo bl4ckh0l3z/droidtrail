@@ -16,7 +16,7 @@
 # along with DroidTrail. If not, see <http://www.gnu.org/licenses/>.
 #
 # **********************************************************************
-#   NOTE: This file is part of Androguard;
+# NOTE: This file is part of Androguard;
 #         Copyright (C) 2012, Anthony Desnos <desnos at t0t0.fr>
 #         All rights reserved.
 #
@@ -24,6 +24,7 @@
 #         created by bl4ckh0l3 <bl4ckh0l3z at gmail.com>.
 # **********************************************************************
 #
+from itertools import starmap
 
 __author__ = 'desnos'
 __license__ = 'GPL v2'
@@ -40,8 +41,8 @@ from xml.dom import minidom
 from axmlprinter import AXMLPrinter
 from arscparser import ARSCParser
 
-class APK:
 
+class APK:
     def __init__(self, path, filename):
         self.path = path
         self.filename = filename
@@ -73,6 +74,7 @@ class APK:
 
                     if self.xml[i] != None:
                         self.package = self.xml[i].documentElement.getAttribute("package")
+
                         self.androidversion["Code"] = self.xml[i].documentElement.getAttribute("android:versionCode")
                         self.androidversion["Name"] = self.xml[i].documentElement.getAttribute("android:versionName")
 
@@ -99,12 +101,18 @@ class APK:
         return self.path
 
     def get_package(self):
+        if self.package == '' or self.package == None:
+            self.package = 'None'
         return self.package
 
     def get_androidversion_code(self):
+        if self.androidversion["Code"] == '' or self.androidversion["Code"] == None:
+            self.androidversion["Code"] = 'None'
         return self.androidversion["Code"]
 
     def get_androidversion_name(self):
+        if self.androidversion["Name"] == '' or self.androidversion["Name"] == None:
+            self.androidversion["Name"] = 'None'
         return self.androidversion["Name"]
 
     def get_files(self):
@@ -144,7 +152,7 @@ class APK:
             except:
                 self.valid_apk = False
                 logging.error("Ignoring '%s', exception creating APK instance" % (self.filename))
-        if name == None:
+        if name == '' or name == None:
             name = 'None'
         return name
 
@@ -201,40 +209,48 @@ class APK:
         activities_list = ''
         activities = self.get_elements("activity", "android:name")
         for i in activities:
-            if len(activities) == 1 or i == activities[len(activities)-1]:
+            if len(activities) == 1 or i == activities[len(activities) - 1]:
                 activities_list += i
             else:
                 activities_list += i + '|'
+        if len(activities) == 0:
+            activities_list = 'None'
         return activities_list
 
     def get_services(self):
         services_list = ''
         services = self.get_elements("service", "android:name")
         for i in services:
-            if len(services) == 1 or i == services[len(services)-1]:
+            if len(services) == 1 or i == services[len(services) - 1]:
                 services_list += i
             else:
                 services_list += i + '|'
+        if len(services) == 0:
+            services_list = 'None'
         return services_list
 
     def get_receivers(self):
         receivers_list = ''
         receivers = self.get_elements("receiver", "android:name")
         for i in receivers:
-            if len(receivers) == 1 or i == receivers[len(receivers)-1]:
+            if len(receivers) == 1 or i == receivers[len(receivers) - 1]:
                 receivers_list += i
             else:
                 receivers_list += i + '|'
+        if len(receivers) == 0:
+            receivers_list = 'None'
         return receivers_list
 
     def get_providers(self):
         providers_list = ''
         providers = self.get_elements("provider", "android:name")
         for i in providers:
-            if len(providers) == 1 or i == providers[len(providers)-1]:
+            if len(providers) == 1 or i == providers[len(providers) - 1]:
                 providers_list += i
             else:
                 providers_list += i + '|'
+        if len(providers) == 0:
+            providers_list = 'None'
         return providers_list
 
     def get_intent_filters(self, category, name):
@@ -266,29 +282,36 @@ class APK:
         permissions_list = ''
         permissions = self.permissions
         for i in permissions:
-            if len(permissions) == 1 or i == permissions[len(permissions)-1]:
+            if len(permissions) == 1 or i == permissions[len(permissions) - 1]:
                 permissions_list += i
             else:
                 permissions_list += i + '|'
+        if len(permissions) == 0:
+            permissions_list = 'None'
         return permissions_list
 
     def get_max_sdk_version(self):
-        return self.get_element("uses-sdk", "android:maxSdkVersion")
+        max_sdk_version = self.get_element("uses-sdk", "android:maxSdkVersion")
+        return max_sdk_version
 
     def get_min_sdk_version(self):
-        return self.get_element("uses-sdk", "android:minSdkVersion")
+        min_sdk_version = self.get_element("uses-sdk", "android:minSdkVersion")
+        return min_sdk_version
 
     def get_target_sdk_version(self):
-        return self.get_element("uses-sdk", "android:targetSdkVersion")
+        target_sdk_version = self.get_element("uses-sdk", "android:targetSdkVersion")
+        return target_sdk_version
 
     def get_libraries(self):
         libraries_list = ''
         libraries = self.get_elements("uses-library", "android:name")
         for i in libraries:
-            if len(libraries) == 1 or i == libraries[len(libraries)-1]:
+            if len(libraries) == 1 or i == libraries[len(libraries) - 1]:
                 libraries_list += i
             else:
                 libraries_list += i + '|'
+        if len(libraries) == 0:
+            libraries_list = 'None'
         return libraries_list
 
     def get_android_manifest_axml(self):
@@ -334,23 +357,19 @@ class APK:
         return None
 
     def get_serial_number(self):
-        serial_number = ''
+        serial_number = 'None'
         signature_name = self.get_signature_name()
         success, cert = self.get_certificate(signature_name)
         if success == True:
             serial_number = cert.serialNumber()
-        else:
-            serial_number = None
         return serial_number
 
     def get_fingerprint_sha1(self):
-        sha1_thumbprint = ''
+        sha1_thumbprint = 'None'
         signature_name = self.get_signature_name()
         success, cert = self.get_certificate(signature_name)
         if success == True:
             sha1_thumbprint = cert.sha1Thumbprint()
-        else:
-            sha1_thumbprint = None
         return sha1_thumbprint
 
     def get_certificate_data(self):
@@ -360,8 +379,8 @@ class APK:
             issuer = self.get_certificate_issuer(cert)
             subject = self.get_certificate_subject(cert)
         else:
-            issuer = "Issuer: C=None, CN=None, DN=None, E=None, L=None, O=None, OU=None, S=None"
-            subject = "Subject: C=None, CN=None, DN=None, E=None, L=None, O=None, OU=None, S=None"
+            issuer = "Issuer: None"
+            subject = "Subject: None"
         return issuer, subject
 
     def get_certificate_issuer(self, cert):

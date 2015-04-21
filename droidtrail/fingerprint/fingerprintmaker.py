@@ -30,18 +30,18 @@ class FingerprintMaker():
         logging.debug("Instantiating the '%s' class" % (self.__class__.__name__))
         self._cfg = config
 
-    def run(self, trails_list):
+    def run(self, trails_list, mode='long'):
         logging.debug("Extracting fingerprints...")
         fingerprints_list = []
         for trails in trails_list:
-            fingerprint = self._extract_fingerprint(trails)
+            fingerprint = self._extract_fingerprint(trails, mode)
             if len(fingerprint) > 0 and fingerprint not in fingerprints_list:
                 fingerprints_list.append(fingerprint)
             else:
                 logging.error("Empty dict")
         return fingerprints_list
 
-    def _extract_fingerprint(self, trails, mode='long'):
+    def _extract_fingerprint(self, trails, mode):
         app_trails = trails['app_trails']
         logging.debug("Extracting fingerprint for '%s'" % (app_trails['app_name']))
         fingerprint = dict()

@@ -33,37 +33,19 @@ class JSONAdapter():
     config = ''
 
     @staticmethod
-    def save_trails(trails_list, mode='long'):
+    def save_trails(trails_list):
         logging.debug("JSONAdapter is storing trails...")
         JSONAdapter._clear_trails()
         try:
             file_trails_name = os.path.join(JSONAdapter.config['dir_out'], JSONAdapter.TRAILS_NAME)
             file_trails = open(file_trails_name, 'w')
             file_trails.write('{"trails": [')
-            if mode == 'short':
-                for i in range(len(trails_list)):
-                    trails = trails_list[i]
-                    trails_short = dict()
-                    app_trails = dict()
-                    app_trails['app_name'] = trails['app_name']
-                    app_trails['app_version'] = trails['app_version']
-                    app_trails['app_package_name'] = trails['app_package_name']
-                    app_trails['app_activities_names'] = trails['app_activities_names']
-                    app_trails['app_services_names'] = trails['app_services_names']
-                    app_trails['app_receivers_names'] = trails['app_receivers_names']
-                    app_trails['app_permissions'] = trails['app_permissions']
-                    trails_short['app_trails'] = app_trails
-                    if i != len(trails_list)-1:
-                        file_trails.write(json.dumps(trails_short) + ',')
-                    else:
-                        file_trails.write(json.dumps(trails_short))
-            elif mode == 'long':
-                for i in range(len(trails_list)):
-                    trails = trails_list[i]
-                    if i != len(trails_list)-1:
-                        file_trails.write(json.dumps(trails) + ',')
-                    else:
-                        file_trails.write(json.dumps(trails))
+            for i in range(len(trails_list)):
+                trails = trails_list[i]
+                if i != len(trails_list)-1:
+                    file_trails.write(json.dumps(trails) + ',')
+                else:
+                    file_trails.write(json.dumps(trails))
             file_trails.write(']}')
             file_trails.close()
         except OSError, e:

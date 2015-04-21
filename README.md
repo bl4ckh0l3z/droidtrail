@@ -20,9 +20,15 @@
 
 ## What is it?
 
-Droidtrail is a modular python tool for executing an automatic and lightweight
-vetting of malicious/legit mobile apps; for each examined app it
-produces a digital footprint which is composed by these digital trails:
+DroidTrail is a modular python tool intended to serve as a framework for executing 
+an automatic and lightweight vetting of malicious/legit android apps; 
+for each analyzed app it produces a digital footprint which is composed by more 
+than 20 trails (e.g. package, permissions, activities, services, receivers, digital 
+certificate summary, file descriptors, etc); each trails-set is summarized and uniquely
+identified by a fingerprint. Fingerprints and trails can be extracted in short/long mode
+and saved in different file format (i.e. JSON, CSV and XML).  
+
+This is an example of digital footprint extracted for the ZitMo (Zeus-in-the-mobile) mobile malware:
 
 ``{"trails": [  
         {  
@@ -57,8 +63,8 @@ produces a digital footprint which is composed by these digital trails:
 
 The following elements are expressed by single-pipe separated values: *app_activities_names,
 app_services_names, app_receivers_names, app_libraries_names, and app_permissions;*  
-  
-A digital trails-set is summarized and uniquely identified a by a digital fingerprint like this:  
+
+The trails-set reported above can be summarized and uniquely identified by this fingerprint:  
 
 ``{  
     "fingerprints": [  
@@ -68,8 +74,6 @@ A digital trails-set is summarized and uniquely identified a by a digital finger
         }  
     ]  
 }``
-
-The digital fingerprints and trails can be extracted in short/long mode and saved in JSON, CSV and XML format.
 
 
 ## Configuration and Installation

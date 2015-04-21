@@ -64,7 +64,8 @@ This is an example of digital footprint extracted for the ZitMo (Zeus-in-the-mob
 The following elements are expressed by single-pipe separated values: *app_activities_names,
 app_services_names, app_receivers_names, app_libraries_names, and app_permissions;*  
 
-The trails-set reported above can be summarized and uniquely identified by this fingerprint:  
+The trails-set reported above can be summarized and uniquely identified by DroidTrail 
+through this fingerprint:
 
 ``{  
     "fingerprints": [  

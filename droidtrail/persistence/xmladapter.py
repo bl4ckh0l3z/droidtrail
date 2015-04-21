@@ -1,3 +1,4 @@
+#coding:utf-8;
 # This file is part of DroidTrail.
 #
 # bl4ckh0l3 <bl4ckh0l3z at gmail.com>

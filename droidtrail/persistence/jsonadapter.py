@@ -43,9 +43,9 @@ class JSONAdapter():
             for i in range(len(trails_list)):
                 trails = trails_list[i]
                 if i != len(trails_list)-1:
-                    file_trails.write(json.dumps(trails) + ',')
+                    file_trails.write(json.dumps(trails, encoding='utf-8') + ',')
                 else:
-                    file_trails.write(json.dumps(trails))
+                    file_trails.write(json.dumps(trails, encoding='utf-8'))
             file_trails.write(']}')
             file_trails.close()
         except OSError, e:

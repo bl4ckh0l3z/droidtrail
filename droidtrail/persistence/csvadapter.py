@@ -1,3 +1,4 @@
+#coding:utf-8;
 # This file is part of DroidTrail.
 #
 # bl4ckh0l3 <bl4ckh0l3z at gmail.com>
@@ -42,7 +43,11 @@ class CSVAdapter():
                 trails_elem_string = ''
                 for trails_index in trails:
                     for trails_elem in trails[trails_index]:
-                        trails_elem_string += str((trails[trails_index])[trails_elem]) + ','
+                        if type((trails[trails_index])[trails_elem]) is int:
+                            trails_elem_string += str((trails[trails_index])[trails_elem]) + ','
+
+                        else:
+                            trails_elem_string += (trails[trails_index])[trails_elem].encode('utf-8') + ','
                 trails_elem_string = trails_elem_string[:-1]
                 file_trails.write(trails_elem_string + '\n')
             file_trails.close()

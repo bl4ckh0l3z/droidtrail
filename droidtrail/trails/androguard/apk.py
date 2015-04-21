@@ -292,14 +292,20 @@ class APK:
 
     def get_max_sdk_version(self):
         max_sdk_version = self.get_element("uses-sdk", "android:maxSdkVersion")
+        if max_sdk_version == None:
+            max_sdk_version = 'None'
         return max_sdk_version
 
     def get_min_sdk_version(self):
         min_sdk_version = self.get_element("uses-sdk", "android:minSdkVersion")
+        if min_sdk_version == None:
+            min_sdk_version = 'None'
         return min_sdk_version
 
     def get_target_sdk_version(self):
         target_sdk_version = self.get_element("uses-sdk", "android:targetSdkVersion")
+        if target_sdk_version == None:
+            target_sdk_version = 'None'
         return target_sdk_version
 
     def get_libraries(self):

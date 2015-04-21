@@ -2,6 +2,6 @@
 
 DROIDTRAIL_HOME="./"
 source $DROIDTRAIL_HOME"droidtrail.env/bin/activate"
-python $DROIDTRAIL_HOME"/droidtrail/run.py"
+python $DROIDTRAIL_HOME"/droidtrail/run.py" "$@"
 
 echo "bye"

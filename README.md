@@ -24,18 +24,52 @@ Droidtrail is a modular python tool for executing an automatic and lightweight
 vetting of malicious/legit mobile apps; for each examined app it
 produces a digital footprint which is composed by these digital trails:
 
-``<< app_name, app_version, app_package_name, app_main_activity_name, 
-     app_activities_names, app_services_names, app_receivers_names, 
-     app_libraries_names, app_permissions, app_min_sdk, app_max_sdk, 
-     app_target_sdk, file_name, file_md5_sum, file_sha256_sum, 
-     file_dimension, cert_subject, cert_issuer, cert_serial_number, 
-     cert_finger_sha1, dummy_1, dummy_2, dummy_3 >>``
+``{"trails": [  
+        {  
+            "app_trails": {  
+                "app_activities_names": "com.android.security.MainActivity",  
+                "app_version": "4.3",  
+                "app_name": "Android Security Suite Premium",  
+                "app_target_sdk": 16,  
+                "app_package_name": "com.android.security",  
+                "app_permissions": "android.permission.SEND_SMS|android.permission.BROADCAST_STICKY|android.permission.SYSTEM_ALERT_WINDOW|android.permission.INTERNAL_SYSTEM_WINDOW|android.permission.ADD_SYSTEM_SERVICE|android.permission.VIBRATE|android.permission.REORDER_TASKS|android.permission.CHANGE_CONFIGURATION|android.permission.WAKE_LOCK|android.permission.STATUS_BAR|android.permission.ACCESS_WIFI_STATE|android.permission.READ_PHONE_STATE|android.permission.MODIFY_PHONE_STATE|android.permission.DEVICE_POWER|android.permission.DISABLE_KEYGUARD|android.permission.INTERNET|android.permission.WRITE_APN_SETTINGS|android.permission.WRITE_SMS|android.permission.BROADCAST_WAP_PUSH|android.permission.CHANGE_WIFI_STATE|android.permission.ACCESS_NETWORK_STATE|android.permission.CHANGE_NETWORK_STATE|android.permission.RECEIVE_BOOT_COMPLETED|android.permission.READ_SMS|android.permission.RECEIVE_SMS|android.permission.BROADCAST_SMS|android.permission.WRITE_SETTINGS|android.permission.ACCESS_WIFI_STATE|android.permission.UPDATE_DEVICE_STATS|android.permission.CHANGE_WIFI_STATE|android.permission.WAKE_LOCK|android.permission.READ_PHONE_STATE|android.permission.WRITE_SECURE|android.permission.WRITE_SECURE_SETTINGS|android.permission.WRITE_EXTERNAL_STORAGE|android.permission.PROCESS_OUTGOING_CALLS",  
+                "app_max_sdk": 19,  
+                "app_libraries_names": "None",  
+                "app_main_activity_name": "com.android.security.MainActivity",  
+                "app_receivers_names": "com.android.security.SecurityReceiver",  
+                "app_min_sdk": "7",  
+                "app_services_names": "com.android.security.SecurityService"  
+            },  
+            "cert_trails": {  
+                "cert_finger_sha1": "E2D22CA65F8F2FEBB19493BC9B72369A6216A1FB",  
+                "cert_subject": "Subject: C=US, CN=Android Debug, DN=C=US, O=Android, CN=Android Debug, E=, L=, O=Android, OU=, S=",  
+                "cert_serial_number": "4ED0AC83",  
+                "cert_issuer": "Issuer: C=US, CN=Android Debug, DN=C=US, O=Android, CN=Android Debug, E=, L=, O=Android, OU=, S="  
+            },
+            "file_trails": {
+                "file_name": "d1cf8ab0987a16c80cea4fc29aa64b56.apk",  
+                "file_sha256_sum": "302c060432907e506643d39b7981df16a61c61b84981bcec379fa8c5b2ec6a99",  
+                "file_dimension": 207489,  
+                "file_md5_sum": "d1cf8ab0987a16c80cea4fc29aa64b56"  
+            }  
+        }  
+    ]}``
 
-The following elements are
-  - expressed by single-pipe separated values: *app_activities_names, 
-    app_services_names, app_receivers_names, app_libraries_names,
-    and app_permissions;*
-  - for future evolutions: *dummy_1, dummy_2 and dummy_3.*
+The following elements are expressed by single-pipe separated values: *app_activities_names,
+app_services_names, app_receivers_names, app_libraries_names, and app_permissions;*  
+  
+A digital trails-set is summarized and uniquely identified a by a digital fingerprint like this:  
+
+``{
+    "fingerprints": [
+        {
+            "index": "27ce9cf737d01b0bdd5fd6645bce8a06",
+            "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"
+        }
+    ]
+}``
+
+The digital fingerprints and trails can be extracted in short/long mode and saved in JSON, CSV and XML format.
 
 
 ## Configuration and Installation
@@ -47,7 +81,8 @@ The following elements are
 ## Running
 
 ``$ sudo chmod 700 run_droidtrail.sh``  
-``$ run_droidtrail.sh``
+``$ run_droidtrail.sh -h``  
+``$ run_droidtrail.sh -t -f -m long -o csv``
 
 
 ## Package composition
@@ -74,12 +109,10 @@ The package is composed by:
 
 ## Todo-list
 
-  - Update README with new models (trails and fingerprints)
-  - Fix return value of APK functions
-  - Develop csvadapter and xmladapter
   - Improve strings encode/decode  
-  - Develop stats components  
-Please see the <TODO> tag disseminated in the source code;  
+  - Develop stats components
+  - Update package composition
+Please see the TODO tag disseminated in the source code;  
 some grep will help you! :)
 
 

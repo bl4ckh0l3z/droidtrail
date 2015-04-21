@@ -60,13 +60,13 @@ app_services_names, app_receivers_names, app_libraries_names, and app_permission
   
 A digital trails-set is summarized and uniquely identified a by a digital fingerprint like this:  
 
-``{
-    "fingerprints": [
-        {
-            "index": "27ce9cf737d01b0bdd5fd6645bce8a06",
-            "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"
-        }
-    ]
+``{  
+    "fingerprints": [  
+        {  
+            "index": "27ce9cf737d01b0bdd5fd6645bce8a06",  
+            "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"  
+        }  
+    ]  
 }``
 
 The digital fingerprints and trails can be extracted in short/long mode and saved in JSON, CSV and XML format.

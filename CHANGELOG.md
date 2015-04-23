@@ -4,14 +4,14 @@
 
 ###Features
 
-  - Store the trails extracted for earch analyzed app in a CSV file 
-    trails_list.csv, stored in the out directory  
-  - Store the fingerprint extracted for earch analyzed app in a CSV file 
-    fingerprints_list.csv, stored in the out directory
-  - Store the trails extracted for earch analyzed app in a XML file 
-    trails_list.xml, stored in the out directory  
-  - Store the fingerprint extracted for earch analyzed app in a XML file 
-    fingerprints_list.xml, stored in the out directory    
+  - Store the trails extracted for each analyzed app in a CSV file 
+    trails_list.csv, located in the out directory  
+  - Store the fingerprint extracted for each analyzed app in a CSV file 
+    fingerprints_list.csv, located in the out directory
+  - Store the trails extracted for each analyzed app in a XML file 
+    trails_list.xml, located in the out directory  
+  - Store the fingerprint extracted for each analyzed app in a XML file 
+    fingerprints_list.xml, located in the out directory    
   - Added cmd line option for the selection of (i) trails extraction, 
    (ii) fingerprints extraction, (iii) mode for trails/fingerprints extraction
    (i.e. long, short) and (iv) output format (i.e. json, csv, xml)

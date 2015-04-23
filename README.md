@@ -30,7 +30,10 @@ and saved in different file format (i.e. JSON, CSV and XML).
 
 This is an example of digital footprint extracted for the ZitMo (Zeus-in-the-mobile) mobile malware:
 
-``{"trails": [  
+<pre>
+{
+    "trails": 
+    [  
         {  
             "app_trails": {  
                 "app_activities_names": "com.android.security.MainActivity",  
@@ -59,7 +62,9 @@ This is an example of digital footprint extracted for the ZitMo (Zeus-in-the-mob
                 "file_md5_sum": "d1cf8ab0987a16c80cea4fc29aa64b56"  
             }  
         }  
-    ]}``
+    ]
+}
+    </pre>
 
 The following elements are expressed by single-pipe separated values: *app_activities_names,
 app_services_names, app_receivers_names, app_libraries_names, and app_permissions;*  
@@ -67,14 +72,16 @@ app_services_names, app_receivers_names, app_libraries_names, and app_permission
 The trails-set reported above can be summarized and uniquely identified by DroidTrail 
 through this fingerprint:
 
-``{  
-    "fingerprints": [  
-        {  
-            "index": "27ce9cf737d01b0bdd5fd6645bce8a06",  
-            "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"  
-        }  
-    ]  
-}``
+<pre>
+    {  
+        "fingerprints": [  
+            {  
+                "index": "27ce9cf737d01b0bdd5fd6645bce8a06",  
+                "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"  
+            }  
+        ]  
+    }  
+</pre>    
 
 
 ## Configuration and Installation
@@ -114,7 +121,9 @@ The package is composed by:
 
 ## Todo-list
 
+  - Sort trails
   - Improve strings encode/decode  
+  - Sanitize error log
   - Develop stats components
   - Update package composition
 Please see the TODO tag disseminated in the source code;  

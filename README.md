@@ -73,14 +73,14 @@ The trails-set reported above can be summarized and uniquely identified by Droid
 through this fingerprint:
 
 <pre>
-    {  
-        "fingerprints": [  
-            {  
-                "index": "27ce9cf737d01b0bdd5fd6645bce8a06",  
-                "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"  
-            }  
-        ]  
-    }  
+{  
+    "fingerprints": [  
+        {  
+            "index": "27ce9cf737d01b0bdd5fd6645bce8a06",  
+            "elem": "bbfdf3f1eb959ecd0c46786fbf7508923e9cf837dcb41204dce6096fa8106e94"  
+        }  
+    ]  
+}  
 </pre>    
 
 

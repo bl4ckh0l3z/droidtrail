@@ -1,5 +1,13 @@
 # DroidTrail - Changelog
 
+## 0.5 (Apr 24, 2015)
+
+###Fixes
+
+  - Removed duplicates and sorted values for activities, receivers, 
+    providers, services, permissions and libraries  
+
+
 ## 0.4 (Apr 21, 2015)
 
 ###Features

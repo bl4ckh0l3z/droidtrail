@@ -21,8 +21,9 @@
 ## What is it?
 
 DroidTrail is a modular python tool intended to serve as a framework for executing 
-an automatic and lightweight vetting of malicious/legit android apps; 
-for each analyzed app it produces a digital footprint which is composed by more 
+an automatic and lightweight vetting of malicious/legit android apps.   
+
+For each analyzed app it produces a digital footprint which is composed by more 
 than 20 descriptive trails (e.g. package, permissions, activities, services, receivers, digital 
 certificate summary, file descriptors, etc); each trails-set is summarized and uniquely
 identified by a fingerprint. Fingerprints and trails can be extracted in short/long mode
@@ -107,6 +108,7 @@ The package is composed by:
       - **extract**: *the components for the extraction of archives of malicious apps;*  
       - **fingerprint**: *the components for the fingerprinting of mobile apps;*  
       - **persistence**: *the components for managing the persistence of the results;*  
+      - **stats**: *t.b.d. - dummy*
       - **utils**: *the collections of useful and reusable functions and methods;*  
       - **trails**: *the components for the extraction of digital trails;*  
       - **run.py**: *the main python script.;*  
@@ -121,7 +123,6 @@ The package is composed by:
 
 ## Todo-list
 
-  - Sort trails
   - Improve strings encode/decode  
   - Sanitize error log
   - Develop stats components

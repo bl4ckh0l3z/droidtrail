@@ -41,11 +41,10 @@ class CSVAdapter():
             for i in range(len(trails_list)):
                 trails = trails_list[i]
                 trails_elem_string = ''
-                for trails_index in trails:
-                    for trails_elem in trails[trails_index]:
+                for trails_index in sorted(trails):
+                    for trails_elem in sorted(trails[trails_index]):
                         if type((trails[trails_index])[trails_elem]) is int:
                             trails_elem_string += str((trails[trails_index])[trails_elem]) + ','
-
                         else:
                             trails_elem_string += (trails[trails_index])[trails_elem].encode('utf-8') + ','
                 trails_elem_string = trails_elem_string[:-1]

@@ -207,8 +207,8 @@ class APK:
 
     def get_activities(self):
         activities_list = ''
-        activities = self.get_elements("activity", "android:name")
-        for i in activities:
+        activities = list(set(self.get_elements("activity", "android:name")))
+        for i in sorted(activities):
             if len(activities) == 1 or i == activities[len(activities) - 1]:
                 activities_list += i
             else:
@@ -219,8 +219,8 @@ class APK:
 
     def get_services(self):
         services_list = ''
-        services = self.get_elements("service", "android:name")
-        for i in services:
+        services = list(set(self.get_elements("service", "android:name")))
+        for i in sorted(services):
             if len(services) == 1 or i == services[len(services) - 1]:
                 services_list += i
             else:
@@ -231,8 +231,8 @@ class APK:
 
     def get_receivers(self):
         receivers_list = ''
-        receivers = self.get_elements("receiver", "android:name")
-        for i in receivers:
+        receivers = list(set(self.get_elements("receiver", "android:name")))
+        for i in sorted(receivers):
             if len(receivers) == 1 or i == receivers[len(receivers) - 1]:
                 receivers_list += i
             else:
@@ -243,8 +243,8 @@ class APK:
 
     def get_providers(self):
         providers_list = ''
-        providers = self.get_elements("provider", "android:name")
-        for i in providers:
+        providers = list(set(self.get_elements("provider", "android:name")))
+        for i in sorted(providers):
             if len(providers) == 1 or i == providers[len(providers) - 1]:
                 providers_list += i
             else:
@@ -280,8 +280,8 @@ class APK:
 
     def get_permissions(self):
         permissions_list = ''
-        permissions = self.permissions
-        for i in permissions:
+        permissions = list(set(self.permissions))
+        for i in sorted(permissions):
             if len(permissions) == 1 or i == permissions[len(permissions) - 1]:
                 permissions_list += i
             else:
@@ -310,8 +310,8 @@ class APK:
 
     def get_libraries(self):
         libraries_list = ''
-        libraries = self.get_elements("uses-library", "android:name")
-        for i in libraries:
+        libraries = list(set(self.get_elements("uses-library", "android:name")))
+        for i in sorted(libraries):
             if len(libraries) == 1 or i == libraries[len(libraries) - 1]:
                 libraries_list += i
             else:

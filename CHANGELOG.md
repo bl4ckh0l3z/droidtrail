@@ -1,5 +1,14 @@
 # DroidTrail - Changelog
 
+## 0.6 (May 15, 2015)
+
+###Fixes
+
+  - Fixed flag anomaly for -t and -f
+  - The functions remove_dir, remove_file and rename_file are now static
+  - Placeholder file is not removed during executions
+
+
 ## 0.5 (Apr 24, 2015)
 
 ###Fixes

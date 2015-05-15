@@ -123,11 +123,11 @@ The package is composed by:
 
 ## Todo-list
 
+  - Implement email notifications
   - Improve strings encode/decode  
   - Sanitize error log
   - Develop stats components
-  - Update package composition
-Please see the TODO tag disseminated in the source code;  
+Please see the TODO tag disseminated in the source code;
 some grep will help you! :)
 
 

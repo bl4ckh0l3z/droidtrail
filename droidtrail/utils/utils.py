@@ -27,6 +27,7 @@ import logging
 import zipfile
 import rarfile
 import tarfile
+import shutil
 
 class Utils():
 
@@ -202,3 +203,44 @@ class Utils():
         if long_value > 0x7fffffff:
             long_value = (0x7fffffff & long_value) - 0x80000000
         return long_value
+
+    @staticmethod
+    def rename_file(path_in, path_out, file):
+        logging.debug("Renaming file '%s'" % (os.path.join(path_in, file)))
+        md5 = Utils.compute_md5_file(path_in, file)
+        ext = os.path.splitext(file)[1]
+        if ext != '.apk':
+            ext = '.apk'
+        file_new = md5 + ext
+
+        try:
+            os.rename(os.path.join(path_in, file).encode('utf-8').strip(),
+                os.path.join(path_out, file_new).encode('utf-8').strip())
+        except OSError, e:
+            logging.error("Error renaming file '%s': %s" % (os.path.join(path_in, file), e))
+            raise OSError
+
+    @staticmethod
+    def remove_file(path_in, file):
+        if '.placeholder' not in file:
+            logging.debug("Removing file '%s'" % (os.path.join(path_in, file)))
+            try:
+                os.remove(os.path.join(path_in, file).encode('utf-8').strip())
+            except OSError, e:
+                logging.error("Error removing file '%s': %s" % (os.path.join(path_in, file), e))
+                raise OSError
+
+    @staticmethod
+    def remove_dir_content(dir):
+        logging.debug("Removing dir '%s' content" % (dir))
+        try:
+            for elem in os.listdir(dir):
+                elem_path = os.path.join(dir, elem)
+                if os.path.isdir(elem_path):
+                    shutil.rmtree(elem_path)
+                else:
+                    if '.placeholder' not in elem:
+                        Utils.remove_file(dir, elem)
+        except OSError, e:
+            logging.error("Error removing dir '%s' content: %s" % (dir, e))
+            raise OSError

@@ -71,16 +71,17 @@ class Core:
                 CSVAdapter.save_trails(trails_list)
             if 'xml' in self._output:
                 XMLAdapter.save_trails(trails_list)
-            fingerprints_list = self._fingerprint_maker.run(trails_list, self._mode)
-            if len(fingerprints_list) > 0:
-                if 'json' in self._output:
-                    JSONAdapter.save_fingerprints(fingerprints_list)
-                if 'csv' in self._output:
-                    CSVAdapter.save_fingerprints(fingerprints_list)
-                if 'xml' in self._output:
-                    XMLAdapter.save_fingerprints(fingerprints_list)
-            else:
-                logging.debug('Empty fingerprints_list')
+            if self._fingerprints:
+                fingerprints_list = self._fingerprint_maker.run(trails_list, self._mode)
+                if len(fingerprints_list) > 0:
+                    if 'json' in self._output:
+                        JSONAdapter.save_fingerprints(fingerprints_list)
+                    if 'csv' in self._output:
+                        CSVAdapter.save_fingerprints(fingerprints_list)
+                    if 'xml' in self._output:
+                        XMLAdapter.save_fingerprints(fingerprints_list)
+                else:
+                    logging.debug('Empty fingerprints_list')
         else:
             logging.debug('Empty trails_list')
         print("Done...")
@@ -106,9 +107,6 @@ def options():
     mode = 'long'
     trails = False
     fingerprints = False
-    if '-t' not in opts and '-f' not in opts:
-        trails = True
-        fingerprints = True
     for o, a in opts:
         if o in ("-h", "--help"):
             usage()
@@ -128,9 +126,13 @@ def options():
         elif o in ("-t", "--trails"):
             trails = True
         elif o in ("-f", "--fingerprints"):
+            trails = True
             fingerprints = True
         else:
             assert False, "Unhandled option"
+    if not trails and not fingerprints:
+        trails = True
+        fingerprints = True
     return trails, fingerprints, mode, output
 
 def main():

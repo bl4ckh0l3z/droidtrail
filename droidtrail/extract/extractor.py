@@ -22,7 +22,6 @@ __maintainer__ = 'bl4ckh0l3'
 __email__ = 'bl4ckh0l3z@gmail.com'
 
 import os
-import shutil
 import logging
 from utils.utils import Utils
 
@@ -33,9 +32,10 @@ class FileExtractor():
 
     def run(self):
         logging.debug("Extracting files...")
-        while Utils.compute_file_number(self._cfg['dir_in']) > 0:
+        Utils.remove_dir_content(self._cfg['dir_out'])
+        while Utils.compute_file_number(self._cfg['dir_in']) > 1:
             self._walk_dir(self._cfg['dir_in'], self._cfg['dir_out'])
-        self._remove_dir_content(self._cfg['dir_in'])
+        Utils.remove_dir_content(self._cfg['dir_in'])
 
     def _walk_dir(self, dir, path_out):
         try:
@@ -47,12 +47,12 @@ class FileExtractor():
                             Utils.is_rar(root, file) or \
                             Utils.is_tar(root, file):
                         self._extract_file(root, file)
-                        self._remove_file(root, file)
+                        Utils.remove_file(root, file)
                     else:
                         if Utils.is_apk(root, file):
-                            self._rename_file(root, path_out, file)
+                            Utils.rename_file(root, path_out, file)
                         else:
-                            self._remove_file(root, file)
+                            Utils.remove_file(root, file)
         except OSError, e:
             logging.error("Error walking dir '%s': %s" % (dir, e))
             raise OSError
@@ -81,39 +81,6 @@ class FileExtractor():
             elif Utils.is_tar(path_in, file):
                 Utils.extract_tar(path_in, file, path_in)
         except OSError, e:
+            logging.error(e)
             return False
         return True
-
-    def _rename_file(self, path_in, path_out, file):
-        logging.debug("Renaming file '%s'" % (os.path.join(path_in, file)))
-        md5 = Utils.compute_md5_file(path_in, file)
-        ext = os.path.splitext(file)[1]
-        if ext != '.apk':
-            ext = '.apk'
-        file_new = md5 + ext
-
-        try:
-            os.rename(os.path.join(path_in, file).encode('utf-8').strip(),
-                os.path.join(path_out, file_new).encode('utf-8').strip())
-        except OSError, e:
-            logging.error("Error renaming file '%s': %s" % (os.path.join(path_in, file), e))
-            raise OSError
-
-    def _remove_file(self, path_in, file):
-        logging.debug("Removing file '%s'" % (os.path.join(path_in, file)))
-        try:
-            os.remove(os.path.join(path_in, file).encode('utf-8').strip())
-        except OSError, e:
-            logging.error("Error removing file '%s': %s" % (os.path.join(path_in, file), e))
-            raise OSError
-
-    def _remove_dir_content(self, dir):
-        logging.debug("Removing dir '%s' content" % (dir))
-        try:
-            for elem in os.listdir(dir):
-                elem_path = os.path.join(dir, elem)
-                if os.path.isdir(elem_path):
-                    shutil.rmtree(elem_path)
-        except OSError, e:
-            logging.error("Error removing dir '%s' content: %s" % (dir, e))
-            raise OSError

@@ -1,5 +1,16 @@
 # DroidTrail - Changelog
 
+## 0.7 (Nov 22, 2015)
+
+###Features
+  - Added mutex/semaphore/concurrency check against parallel execution
+  - Added logrotate installation and config
+
+###Fixes
+
+  - Fixed relevant issues for the configuration process (broken installation of 7zip and chilkat)
+
+
 ## 0.6 (May 15, 2015)
 
 ###Fixes

@@ -88,7 +88,7 @@ through this fingerprint:
 ## Configuration and Installation
 
 ``$ sudo chmod 700 configure.sh``  
-``$ configure.sh``
+``$ sudo configure.sh``
 
 
 ## Running
